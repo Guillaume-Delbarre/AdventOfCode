@@ -1,7 +1,7 @@
 from functools import cmp_to_key
 
 # Exercice 1
-data = open("jour 7/input_3.txt", "r").read().split("\n")
+data = open("jour 7/input.txt", "r").read().split("\n")
 data = [line.split() for line in data]
 
 # print(data)
@@ -42,7 +42,7 @@ def compare(tot1, tot2) :
                 # print(f"La main {tot2} et plus forte que {tot1}")
                 return -1
         if len(s1) == 3 : # Différentier Three of a kind et Two pair
-            foak1 = main1.count(s1[0]) == 3 or main1.count(s1[1]) == 3 or main1.count(s2[2]) == 3
+            foak1 = main1.count(s1[0]) == 3 or main1.count(s1[1]) == 3 or main1.count(s1[2]) == 3
             foak2 = main2.count(s2[0]) == 3 or main2.count(s2[1]) == 3 or main2.count(s2[2]) == 3
             if foak1 and not foak2 :
                 # print(f"La main {tot1} et plus forte que {tot2}")
@@ -69,6 +69,5 @@ data_sort = sorted(data, key=cmp_to_key(compare))
 score = 0
 for index, main in enumerate(data_sort, 1) :
     score += index*int(main[1])
-    print(index, main)
 
 print(score)
