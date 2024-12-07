@@ -65,22 +65,17 @@ for pos_y in range(len(data)) :
             new_data = copy.deepcopy(data)
             coords = copy.deepcopy(start_coords)
             new_data[pos_y][pos_x] = '#'
-            directions = [[[] for _ in range(len(data[0]))] for _ in range(len(data))]
+            directions = []
             dir = [-1, 0]
-
-            sortie = False
-            boucle = False
-            while not sortie or not boucle :
-                if (dir[0], dir[1]) in directions[coords[0]][coords[1]] :
-                    boucle = True
+            while True :
+                if (coords[0], coords[1], dir[0], dir[1]) in directions :
+                    score += 1
                     break
                 else :
-                    directions[coords[0]][coords[1]].append((dir[0], dir[1]))
+                    directions.append((coords[0], coords[1], dir[0], dir[1]))
                 old_coords = [coords[0], coords[1]]
                 coords = [coords[0] + dir[0], coords[1] + dir[1]]
                 if coords[0] < 0 or coords[0] >= len(data) or coords[1] < 0 or coords[1] >= len(data[coords[0]]) :
-                    # On est sortie
-                    sortie = True
                     break
                 elif new_data[coords[0]][coords[1]] == '#' :
                     # tourne droite
@@ -93,6 +88,4 @@ for pos_y in range(len(data)) :
                     elif dir == [0, -1] :
                         dir = [-1, 0]
                     coords = [old_coords[0] + dir[0], old_coords[1] + dir[1]]
-            if boucle :
-                score += 1
 print(score)
