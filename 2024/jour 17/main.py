@@ -1,5 +1,5 @@
 # Exercice 1
-register, program = open("2024/jour 17/input.txt", "r").read().split("\n\n")
+register, program = open("2024/jour 17/exemple_input.txt", "r").read().split("\n\n")
 register = [int(d[12:]) for d in register.split('\n')]
 register = {'A' : register[0], 'B' : register[1], 'C' : register[2]}
 program = [int(p) for p in program[9:].split(',')]
@@ -49,7 +49,7 @@ def process(opcode, operand, register) :
         num = register['A']
         register['B'] = int(num/denom)
         i += 2
-    elif opcode == 6 : #cdv
+    elif opcode == 7 : #cdv
         denom = pow(2, get_combo_operand(operand))
         num = register['A']
         register['C'] = int(num/denom)
@@ -72,3 +72,44 @@ while i < len(program)-1 :
 print(f"Etat final : register={register}")
 
 print(",".join(res))
+
+
+
+# Exercice 2
+register, program = open("2024/jour 17/input.txt", "r").read().split("\n\n")
+register = [int(d[12:]) for d in register.split('\n')]
+register = {'A' : register[0], 'B' : register[1], 'C' : register[2]}
+program = [int(p) for p in program[9:].split(',')]
+
+trouve = False
+val_a = 0
+while not trouve :
+    i_program = 0
+    i = 0
+    res = []
+    register = {'A' : val_a, 'B' : 0, 'C' : 0}
+    while i < len(program)-1 :
+        code = program[i]
+        rand = program[i+1]
+        # print(f"On est avec i:{i} on a opcode:{code} et oprand:{rand}")
+        # print(f"On a comme registre : {register}")
+        val = process(code, rand, register)
+        if val != None :
+            if i_program < len(program) and val == program[i_program] :
+                res.append(str(val))
+                i_program +=1
+            else :
+                # print(f"Break avec val={val}, i={i_program} et program = {program}")
+                break
+    if i_program == len(program) :
+        trouve = True
+    if i_program >= 2 :
+        print(f"pour val_a={val_a} on a res={res}")
+        input()
+    val_a += 1
+
+
+print(f"Etat final : register={register}")
+
+print(",".join(res))
+print(val_a)
